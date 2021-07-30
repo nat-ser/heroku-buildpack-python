@@ -7,12 +7,12 @@ RSpec.describe 'Buildpack detection' do
   # are already tested in the specs for general buildpack functionality.
 
   context 'when there are no recognised Python project files' do
-    let(:app) { new_app('spec/fixtures/no_python_project_files', allow_failure: true) }
+    let(:app) { Hatchet::Runner.new('spec/fixtures/no_python_project_files', allow_failure: true) }
 
     it 'fails detection' do
       app.deploy do |app|
         expect(clean_output(app.output)).to include(<<~OUTPUT)
-          remote: -----> App not compatible with buildpack: #{Hatchet::App.default_buildpack}
+          remote: -----> App not compatible with buildpack: #{DEFAULT_BUILDPACK_URL}
           remote:        More info: https://devcenter.heroku.com/articles/buildpacks#detection-failure
         OUTPUT
       end
